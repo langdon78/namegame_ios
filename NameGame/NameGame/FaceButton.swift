@@ -25,6 +25,7 @@ open class FaceButton: UIButton {
     }
 
     func setup() {
+        imageView?.contentMode = .scaleAspectFill
         setTitleColor(.white, for: .normal)
         titleLabel?.alpha = 0.0
 
@@ -38,8 +39,7 @@ open class FaceButton: UIButton {
         tintView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
-    // TODO: Show the user's face on the button.
     func showFace(_ image: UIImage) {
-        self.setImage(image, for: .normal)
+        setImage(image, for: .normal)
     }
 }
