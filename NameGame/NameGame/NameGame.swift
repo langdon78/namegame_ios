@@ -57,7 +57,6 @@ class NameGame {
     }
     
     func shuffle() {
-        visibleProfiles.forEach({print($0.headshot.height, $0.headshot.width)})
         var shuffled = allProfiles
         guard shuffled.count > 1 else { return }
         
