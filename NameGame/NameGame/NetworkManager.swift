@@ -53,6 +53,8 @@ final class NetworkManager {
     static let shared: NetworkManager = NetworkManager()
     let session = URLSession(configuration: URLSessionConfiguration.default)
     
+    private init() {}
+    
     public func items<T>(at url: URL, completionHandler: @escaping NetworkResponse<[T]>) where T: Codable {
         retrieve(from: url) { [weak self] result in
             switch result {
