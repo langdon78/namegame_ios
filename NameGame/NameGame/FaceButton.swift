@@ -39,4 +39,7 @@ open class FaceButton: UIButton {
     }
 
     // TODO: Show the user's face on the button.
+    func showFace(_ image: UIImage) {
+        self.setImage(image, for: .normal)
+    }
 }
