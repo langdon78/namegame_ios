@@ -6,7 +6,7 @@
 //  Copyright © 2018 WillowTree Apps. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 typealias NetworkResponse<T> = (Result<T>) -> Void
 
@@ -43,23 +43,17 @@ struct HTTPRequest {
     }
 }
 
-protocol Instantiable {
-    init?(data: Data)
-}
-
-extension UIImage: Instantiable {}
-
 final class NetworkManager {
     static let shared: NetworkManager = NetworkManager()
     let session = URLSession(configuration: URLSessionConfiguration.default)
     
     private init() {}
     
-    public func items<T>(at url: URL, completionHandler: @escaping NetworkResponse<[T]>) where T: Codable {
+    public func items<Decoded>(at url: URL, completionHandler: @escaping NetworkResponse<[Decoded]>) where Decoded: Codable {
         retrieve(from: url) { [weak self] result in
             switch result {
             case .success(let data):
-                guard let entities: [T] = self?.entities(for: data) else {
+                guard let entities: [Decoded] = self?.decode(for: data) else {
                     completionHandler(.failure(ResponseError.unableToParseResponse))
                     return
                 }
@@ -69,35 +63,7 @@ final class NetworkManager {
         }
     }
     
-    public func blob<T>(at url: URL, completionHandler: @escaping NetworkResponse<T>) where T: Instantiable {
-        retrieve(from: url) { [weak self] result in
-            switch result {
-            case .success(let data):
-                guard let parsed: T = self?.entity(for: data) else {
-                    completionHandler(.failure(ResponseError.unableToParseResponse))
-                    return
-                }
-                completionHandler(.success(parsed))
-            case .failure(let error): completionHandler(.failure(error))
-            }
-        }
-    }
-    
-    private func entity<T>(for data: Data) -> T? where T: Instantiable {
-        return T.init(data: data)
-    }
-    
-    private func entities<T>(for data: Data) -> [T]? where T: Codable {
-        do {
-            let decoded = try JSONDecoder().decode([T].self, from: data)
-            return decoded
-        } catch {
-            print(error)
-            return nil
-        }
-    }
-    
-    private func retrieve(from url: URL, completionHandler: @escaping NetworkResponse<Data>) {
+    public func retrieve(from url: URL, completionHandler: @escaping NetworkResponse<Data>) {
         let urlRequest = URLRequest(url: url)
         session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             if let networkError = error {
@@ -110,5 +76,18 @@ final class NetworkManager {
             }
             completionHandler(.success(data))
         }).resume()
+    }
+}
+
+// MARK: Decode helper method
+extension NetworkManager {
+    fileprivate func decode<T>(for data: Data) -> [T]? where T: Codable {
+        do {
+            let decoded = try JSONDecoder().decode([T].self, from: data)
+            return decoded
+        } catch {
+            print(error)
+            return nil
+        }
     }
 }

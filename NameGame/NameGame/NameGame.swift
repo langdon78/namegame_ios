@@ -67,4 +67,18 @@ class NameGame {
         }
         allProfiles = shuffled
     }
+    
+    func imageData(for profile: Profile, completionHandler: @escaping (Data) -> Void) {
+        guard let url = profile.headshot.urlFull else { return }
+        NetworkManager.shared.retrieve(from: url) { (result: Result<Data>) in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    completionHandler(image)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }

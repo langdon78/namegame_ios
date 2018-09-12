@@ -24,18 +24,4 @@ extension Headshot {
         let fullPath = "http:\(url)"
         return URL(string: fullPath)
     }
-    
-    func image(completionHandler: @escaping (UIImage) -> Void) {
-        guard let url = urlFull else { return }
-        NetworkManager.shared.blob(at: url) { (result: Result<UIImage>) in
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    completionHandler(image)
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
 }

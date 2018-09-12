@@ -53,8 +53,9 @@ class NameGameViewController: UIViewController {
 extension NameGameViewController: NameGameDelegate {
     func refresh() {
         for n in 0..<imageButtons.count {
-            let profile = nameGame.profile(for: n)
-            profile?.headshot.image { [weak self] image in
+            guard let profile = nameGame.profile(for: n) else { return }
+            nameGame.imageData(for: profile) { [weak self] data in
+                guard let image = UIImage(data: data) else { return }
                 self?.imageButtons[n].showFace(image)
             }
         }
