@@ -15,15 +15,19 @@ class NameGameViewController: UIViewController {
     @IBOutlet weak var innerStackView2: UIStackView!
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet var imageButtons: [FaceButton]!
+    
+    lazy var nameGame: NameGame = { return NameGame() }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        nameGame.delegate = self
         
         let orientation: UIDeviceOrientation = self.view.frame.size.height > self.view.frame.size.width ? .portrait : .landscapeLeft
         configureSubviews(orientation)
     }
 
     @IBAction func faceTapped(_ button: FaceButton) {
+        nameGame.shuffle()
     }
 
     func configureSubviews(_ orientation: UIDeviceOrientation) {
@@ -47,4 +51,12 @@ class NameGameViewController: UIViewController {
 }
 
 extension NameGameViewController: NameGameDelegate {
+    func refresh() {
+        for n in 0..<imageButtons.count {
+            let profile = nameGame.profile(for: n)
+            profile?.headshot.image { [weak self] image in
+                self?.imageButtons[n].showFace(image)
+            }
+        }
+    }
 }
