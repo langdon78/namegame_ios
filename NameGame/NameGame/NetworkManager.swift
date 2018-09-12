@@ -20,6 +20,16 @@ enum ResponseError: Error {
     case unableToParseResponse
 }
 
+enum Endpoint: String {
+    case profile = "profiles/"
+    case base = "https://willowtreeapps.com/api/v1.0/"
+    
+    var url: URL {
+        let path = Endpoint.base.rawValue + rawValue
+        return URL(string: path)!
+    }
+}
+
 enum HTTPRequestMethod: String {
     case post
     case get
@@ -43,8 +53,8 @@ final class NetworkManager {
     static let shared: NetworkManager = NetworkManager()
     let session = URLSession(configuration: URLSessionConfiguration.default)
     
-    func items<T>(for urlRequest: URLRequest, completionHandler: @escaping NetworkResponse<[T]>) where T: Codable {
-        send(urlRequest: urlRequest) { [weak self] result in
+    public func items<T>(at url: URL, completionHandler: @escaping NetworkResponse<[T]>) where T: Codable {
+        retrieve(from: url) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let entities: [T] = self?.entities(for: data) else {
@@ -57,8 +67,8 @@ final class NetworkManager {
         }
     }
     
-    func blob<T>(for urlRequest: URLRequest, completionHandler: @escaping NetworkResponse<T>) where T: Instantiable {
-        send(urlRequest: urlRequest) { [weak self] result in
+    public func blob<T>(at url: URL, completionHandler: @escaping NetworkResponse<T>) where T: Instantiable {
+        retrieve(from: url) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let parsed: T = self?.entity(for: data) else {
@@ -85,7 +95,8 @@ final class NetworkManager {
         }
     }
     
-    private func send(urlRequest: URLRequest, completionHandler: @escaping NetworkResponse<Data>) {
+    private func retrieve(from url: URL, completionHandler: @escaping NetworkResponse<Data>) {
+        let urlRequest = URLRequest(url: url)
         session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             if let networkError = error {
                 completionHandler(.failure(networkError))

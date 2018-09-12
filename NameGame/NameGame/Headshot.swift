@@ -27,8 +27,7 @@ extension Headshot {
     
     func image(completionHandler: @escaping (UIImage) -> Void) {
         guard let url = urlFull else { return }
-        let request = URLRequest(url: url)
-        NetworkManager.shared.blob(for: request) { (result: Result<UIImage>) in
+        NetworkManager.shared.blob(at: url) { (result: Result<UIImage>) in
             switch result {
             case .success(let image):
                 DispatchQueue.main.async {
