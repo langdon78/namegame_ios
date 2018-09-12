@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NameGameViewController: UIViewController {
+final class NameGameViewController: UIViewController {
 
     @IBOutlet weak var outerStackView: UIStackView!
     @IBOutlet weak var innerStackView1: UIStackView!
@@ -48,16 +48,39 @@ class NameGameViewController: UIViewController {
         let orientation: UIDeviceOrientation = size.height > size.width ? .portrait : .landscapeLeft
         configureSubviews(orientation)
     }
+    
+    func setTransparency(_ visible: Bool, completion: (() -> Void)?) {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.5) { [weak self] in
+                self?.outerStackView.alpha = visible ? 0.0 : 1.0
+                completion?()
+            }
+        }
+    }
 }
 
 extension NameGameViewController: NameGameDelegate {
-    func refresh() {
-        for n in 0..<imageButtons.count {
-            guard let profile = nameGame.profile(for: n) else { return }
-            nameGame.imageData(for: profile) { [weak self] data in
-                guard let image = UIImage(data: data) else { return }
-                self?.imageButtons[n].showFace(image)
+
+    func refreshImages() {
+        var loaded = 0
+        setTransparency(true) {
+            for n in 0..<self.imageButtons.count {
+                if loaded == 5 { self.setTransparency(false, completion: nil) }
+                guard let profile = self.nameGame.profile(for: n) else { return }
+                self.nameGame.imageData(for: profile) { [weak self] data in
+                    DispatchQueue.main.async {
+                        guard let image = UIImage(data: data) else { return }
+                        self?.imageButtons[n].showFace(image)
+                    }
+                }
+                loaded += 1
             }
+        }
+    }
+    
+    func setQuestionLabelText(with text: String) {
+        DispatchQueue.main.async {
+            self.questionLabel.text = self.nameGame.questionLabelText
         }
     }
 }
