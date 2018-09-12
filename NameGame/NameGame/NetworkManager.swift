@@ -33,11 +33,11 @@ struct HTTPRequest {
     }
 }
 
-protocol Castable {
+protocol Instantiable {
     init?(data: Data)
 }
 
-extension UIImage: Castable {}
+extension UIImage: Instantiable {}
 
 final class NetworkManager {
     static let shared: NetworkManager = NetworkManager()
@@ -57,7 +57,7 @@ final class NetworkManager {
         }
     }
     
-    func blob<T>(for urlRequest: URLRequest, completionHandler: @escaping NetworkResponse<T>) where T: Castable {
+    func blob<T>(for urlRequest: URLRequest, completionHandler: @escaping NetworkResponse<T>) where T: Instantiable {
         send(urlRequest: urlRequest) { [weak self] result in
             switch result {
             case .success(let data):
@@ -71,7 +71,7 @@ final class NetworkManager {
         }
     }
     
-    private func entity<T>(for data: Data) -> T? where T: Castable {
+    private func entity<T>(for data: Data) -> T? where T: Instantiable {
         return T.init(data: data)
     }
     
