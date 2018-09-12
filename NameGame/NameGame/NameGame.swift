@@ -57,6 +57,15 @@ class NameGame {
     }
     
     func shuffle() {
+        visibleProfiles.forEach({print($0.headshot.height, $0.headshot.width)})
+        var shuffled = allProfiles
+        guard shuffled.count > 1 else { return }
         
+        for (firstUnshuffled, unshuffledCount) in zip(shuffled.indices, stride(from: shuffled.count, to: 0, by: -1)) {
+            let randomIndex: Int = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            let newIndex = shuffled.index(firstUnshuffled, offsetBy: randomIndex)
+            shuffled.swapAt(firstUnshuffled, newIndex)
+        }
+        allProfiles = shuffled
     }
 }
