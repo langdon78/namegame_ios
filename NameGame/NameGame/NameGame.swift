@@ -98,7 +98,7 @@ class NameGame {
     
     private func startTimer() {
         if timer != nil { timer?.invalidate() }
-        let date = Date().addingTimeInterval(5)
+        let date = Date().addingTimeInterval(3)
         timer = Timer(fireAt: date, interval: 3, target: self, selector: #selector(hideFaces), userInfo: nil, repeats: true)
         RunLoop.main.add(timer!, forMode: RunLoopMode.commonModes)
     }

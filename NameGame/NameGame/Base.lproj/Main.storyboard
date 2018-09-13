@@ -116,12 +116,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nmd-ha-QPi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-516" y="466.41679160419795"/>
+            <point key="canvasLocation" x="-514" y="469"/>
         </scene>
-        <!--Name Game View Controller-->
+        <!--NameGame-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="NameGameViewController" customModule="NameGame" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NameGame" title="NameGame" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="NameGameViewController" customModule="NameGame" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -147,17 +147,17 @@
                                     <constraint firstItem="WH3-sO-k6y" firstAttribute="centerX" secondItem="w1y-24-VQe" secondAttribute="centerX" id="y9f-8L-tuA"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Who is ...?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YNy-dp-Uoo">
-                                <rect key="frame" x="16" y="88.5" width="343" height="38.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YNy-dp-Uoo">
+                                <rect key="frame" x="16" y="88.5" width="343" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="vIP-zJ-c7A" userLabel="Outer Stack">
-                                <rect key="frame" x="16" y="135" width="343" height="522"/>
+                                <rect key="frame" x="16" y="96.5" width="343" height="560.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="EA9-A5-9wD" userLabel="Inner Stack View 1">
-                                        <rect key="frame" x="0.0" y="0.0" width="164" height="522"/>
+                                        <rect key="frame" x="0.0" y="19.5" width="164" height="522"/>
                                         <subviews>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGv-0C-ewu" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="164" height="164"/>
@@ -201,7 +201,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9jZ-07-xma" userLabel="Inner Stack View 2">
-                                        <rect key="frame" x="179" y="0.0" width="164" height="522"/>
+                                        <rect key="frame" x="179" y="19.5" width="164" height="522"/>
                                         <subviews>
                                             <button opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wKD-LA-aOV" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="164" height="164"/>
@@ -264,7 +264,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pFD-7T-heD">
-                                <rect key="frame" x="16" y="137" width="343" height="3"/>
+                                <rect key="frame" x="16" y="98.5" width="343" height="3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="3" id="PcF-jV-HT1"/>
                                 </constraints>
