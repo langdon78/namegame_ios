@@ -54,7 +54,7 @@ class NameGame {
     
     init(networkManager: NetworkManager = NetworkManager.shared,
          delegate: NameGameDelegate? = nil,
-         gameMode: GameMode = .normal) {
+         gameMode: GameMode = .normalMode) {
         self.networkManager = networkManager
         self.delegate = delegate
         self.gameMode = gameMode
@@ -89,11 +89,12 @@ class NameGame {
     }
     
     private func filterProfiles(_ profiles: [Profile]) {
-        allProfiles = filterProfilesWithNoImages(profiles)
+        let cleanProfiles = filterProfilesWithNoImages(profiles)
         switch gameMode {
-        case .mattMode: allProfiles = allProfiles.filter( {$0.firstName.prefix(3) == "Mat"} )
-        case .teamMode: allProfiles = allProfiles.filter({ $0.jobTitle != nil })
-        default: break
+        case .mattMode: allProfiles = cleanProfiles.filter( {$0.firstName.prefix(3) == "Mat"} )
+        case .teamMode: allProfiles = cleanProfiles.filter({ $0.jobTitle != nil })
+        default:
+            allProfiles = cleanProfiles
         }
     }
     
