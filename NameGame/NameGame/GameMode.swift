@@ -8,10 +8,20 @@
 
 import Foundation
 
-enum GameMode {
-    case normal
-    case mattMode
-    case reverseMode
-    case hintMode
-    case teamMode
+enum GameMode: String {
+    case normalMode = "Normal Mode"
+    case mattMode = "Matt Mode"
+    case reverseMode = "Reverse Mode"
+    case hintMode = "Hint Mode"
+    case teamMode = "Team Mode"
+    
+    static var all: [GameMode] {
+        return [
+            .normalMode,
+            .mattMode,
+            .reverseMode,
+            .hintMode,
+            .teamMode
+        ]
+    }
 }

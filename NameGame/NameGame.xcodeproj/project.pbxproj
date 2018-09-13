@@ -13,6 +13,8 @@
 		BC5F98692148628900FF6C6D /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5F98682148628900FF6C6D /* Profile.swift */; };
 		BC5F986B2148629E00FF6C6D /* SocialLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5F986A2148629E00FF6C6D /* SocialLink.swift */; };
 		BC5F986D214862BD00FF6C6D /* Headshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC5F986C214862BD00FF6C6D /* Headshot.swift */; };
+		BC689A80214AB848006F6A4D /* GameModeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC689A7F214AB848006F6A4D /* GameModeButton.swift */; };
+		BC689A82214AB91A006F6A4D /* GameModeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC689A81214AB91A006F6A4D /* GameModeViewController.swift */; };
 		BC76C8A3214A97BA0028DEA9 /* GameMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC76C8A2214A97BA0028DEA9 /* GameMode.swift */; };
 		EC6A1AB71C8F6E5A0071F529 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A1AB61C8F6E5A0071F529 /* AppDelegate.swift */; };
 		EC6A1AB91C8F6E5A0071F529 /* NameGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC6A1AB81C8F6E5A0071F529 /* NameGameViewController.swift */; };
@@ -28,6 +30,8 @@
 		BC5F98682148628900FF6C6D /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BC5F986A2148629E00FF6C6D /* SocialLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLink.swift; sourceTree = "<group>"; };
 		BC5F986C214862BD00FF6C6D /* Headshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Headshot.swift; sourceTree = "<group>"; };
+		BC689A7F214AB848006F6A4D /* GameModeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeButton.swift; sourceTree = "<group>"; };
+		BC689A81214AB91A006F6A4D /* GameModeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModeViewController.swift; sourceTree = "<group>"; };
 		BC76C8A2214A97BA0028DEA9 /* GameMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameMode.swift; sourceTree = "<group>"; };
 		EC6A1AB31C8F6E5A0071F529 /* NameGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NameGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC6A1AB61C8F6E5A0071F529 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				ECF50AB41C9331CA00C41A1D /* FaceButton.swift */,
+				BC689A7F214AB848006F6A4D /* GameModeButton.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -98,6 +103,7 @@
 				BC5F98672148627400FF6C6D /* Models */,
 				BC5F98642148516B00FF6C6D /* Network */,
 				EC6A1AB61C8F6E5A0071F529 /* AppDelegate.swift */,
+				BC689A81214AB91A006F6A4D /* GameModeViewController.swift */,
 				EC6A1AB81C8F6E5A0071F529 /* NameGameViewController.swift */,
 				03CE45601DD1302700ABF7FA /* NameGame.swift */,
 				0390A0101DDE529600C701A0 /* Views */,
@@ -186,10 +192,12 @@
 				BC5F986D214862BD00FF6C6D /* Headshot.swift in Sources */,
 				BC76C8A3214A97BA0028DEA9 /* GameMode.swift in Sources */,
 				BC5F98692148628900FF6C6D /* Profile.swift in Sources */,
+				BC689A82214AB91A006F6A4D /* GameModeViewController.swift in Sources */,
 				EC6A1AB71C8F6E5A0071F529 /* AppDelegate.swift in Sources */,
 				BC5F9866214851C300FF6C6D /* NetworkManager.swift in Sources */,
 				03CE45611DD1302700ABF7FA /* NameGame.swift in Sources */,
 				ECF50AB51C9331CA00C41A1D /* FaceButton.swift in Sources */,
+				BC689A80214AB848006F6A4D /* GameModeButton.swift in Sources */,
 				BC5F986B2148629E00FF6C6D /* SocialLink.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
