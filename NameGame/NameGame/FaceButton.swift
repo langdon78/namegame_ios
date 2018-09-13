@@ -11,7 +11,7 @@ import UIKit
 
 open class FaceButton: UIButton {
 
-    var id: Int = 0
+    var id: String = ""
     var tintView: UIView = UIView(frame: CGRect.zero)
 
     override init(frame: CGRect) {
@@ -39,7 +39,8 @@ open class FaceButton: UIButton {
         tintView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
-    func showFace(_ image: UIImage) {
+    func showFace(_ image: UIImage, for id: String) {
         setImage(image, for: .normal)
+        self.id = id
     }
 }
