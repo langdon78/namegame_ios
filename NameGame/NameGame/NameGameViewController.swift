@@ -102,6 +102,7 @@ final class NameGameViewController: UIViewController {
     private func displayImagesIfNeeded() {
         if images.count == nameGame.numberPeople {
             DispatchQueue.main.async { [weak self] in
+                self?.imageButtons.forEach { $0.alpha = 1.0 }
                 guard let me = self else { return }
                 me.fadeInImages()
                 me.imageButtons.forEach {
@@ -158,6 +159,15 @@ extension NameGameViewController: NameGameDelegate {
     func setQuestionLabelText(with text: String) {
         DispatchQueue.main.async {
             self.questionLabel.text = self.nameGame.questionLabelText
+        }
+    }
+    
+    func hideFace(for id: String) {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 2.0) { [weak self] in
+                let button = self?.imageButtons.first(where: { $0.id == id })
+                button?.alpha = 0.0
+            }
         }
     }
 }

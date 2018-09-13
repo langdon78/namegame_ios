@@ -12,12 +12,13 @@ protocol NameGameDelegate: class {
     func refreshImages()
     func setQuestionLabelText(with text: String)
     func updateScoreLabel(with score: String)
+    func hideFace(for id: String)
 }
 
 class NameGame {
     // Constants
     let questionPrefixText = "Who is "
-    let numberPeople = 6
+    var numberPeople = 6
     
     // Properties
     var gameMode: GameMode
@@ -29,7 +30,8 @@ class NameGame {
             delegate?.updateScoreLabel(with: "\(correctAnswers) / \(totalAnswers)")
         }
     }
-    var nameIndex: Int = 0
+    var answerIndex: Int = 0
+    var timer: Timer?
     
     // Derived
     var allProfiles: [Profile] = [] {
@@ -38,14 +40,16 @@ class NameGame {
         }
     }
     
+    var hiddenProfiles: [Profile] = []
+    
     var visibleProfiles: [Profile] {
         guard allProfiles.count > numberPeople else { return [] }
         return Array(allProfiles[0..<numberPeople])
     }
     
     var name: String {
-        nameIndex = numericCast(arc4random_uniform(numericCast(visibleProfiles.count)))
-        return "\(visibleProfiles[nameIndex].firstName) \(visibleProfiles[nameIndex].lastName)"
+        answerIndex = numericCast(arc4random_uniform(numericCast(visibleProfiles.count)))
+        return "\(visibleProfiles[answerIndex].firstName) \(visibleProfiles[answerIndex].lastName)"
     }
     
     var questionLabelText: String {
@@ -58,7 +62,7 @@ class NameGame {
         self.networkManager = networkManager
         self.delegate = delegate
         self.gameMode = gameMode
-        loadGameData { print("done loading") }
+        loadGameData(completion: processGameMode)
     }
 
     // Load JSON data from API
@@ -72,6 +76,35 @@ class NameGame {
             }
             completion()
         }
+    }
+    
+    private func processGameMode() {
+        switch gameMode {
+        case .hintMode:
+            startTimer()
+        default:
+            break
+        }
+    }
+    
+    @objc private func hideFaces() {
+        guard let profileToRemove = self.visibleProfiles.filter({ !self.hiddenProfiles.contains($0) }).first(where: { $0.id != self.visibleProfiles[self.answerIndex].id }) else {
+            stopTimer()
+            return
+        }
+        hiddenProfiles.append(profileToRemove)
+        self.delegate?.hideFace(for: profileToRemove.id)
+    }
+    
+    private func startTimer() {
+        if timer != nil { timer?.invalidate() }
+        let date = Date().addingTimeInterval(5)
+        timer = Timer(fireAt: date, interval: 3, target: self, selector: #selector(hideFaces), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer!, forMode: RunLoopMode.commonModes)
+    }
+    
+    private func stopTimer() {
+        timer?.invalidate()
     }
     
     private func filterProfilesWithNoImages(_ profiles: [Profile]) -> [Profile] {
@@ -119,6 +152,7 @@ extension NameGame {
     }
 
     public func shuffle() {
+        processGameMode()
         var shuffled = allProfiles
         guard shuffled.count > 1 else { return }
         
@@ -131,7 +165,7 @@ extension NameGame {
     }
     
     public func evaluateAnswer(for id: String) -> Bool {
-        if visibleProfiles[nameIndex].id == id {
+        if visibleProfiles[answerIndex].id == id {
             correctAnswers += 1
             totalAnswers += 1
             return true
