@@ -44,7 +44,11 @@ final class NameGameViewController: UIViewController {
             self?.nameGame.shuffle()
         }
     }
-
+    
+    @IBAction func newGame(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     func configureSubviews(_ orientation: UIDeviceOrientation) {
         if orientation.isLandscape {
             outerStackView.axis = .vertical
