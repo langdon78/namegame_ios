@@ -11,6 +11,7 @@ import Foundation
 protocol NameGameDelegate: class {
     func refreshImages()
     func setQuestionLabelText(with text: String)
+    func updateScoreLabel(with score: String)
 }
 
 class NameGame {
@@ -21,6 +22,13 @@ class NameGame {
     // Properties
     var networkManager: NetworkManager
     weak var delegate: NameGameDelegate?
+    var correctAnswers: Int = 0
+    var totalAnswers: Int = 0 {
+        didSet {
+            delegate?.updateScoreLabel(with: "\(correctAnswers) / \(totalAnswers)")
+        }
+    }
+    var nameIndex: Int = 0
     
     // Derived
     var allProfiles: [Profile] = [] {
@@ -35,8 +43,8 @@ class NameGame {
     }
     
     var name: String {
-        let randomIndex: Int = numericCast(arc4random_uniform(numericCast(visibleProfiles.count)))
-        return "\(visibleProfiles[randomIndex].firstName) \(visibleProfiles[randomIndex].lastName)"
+        nameIndex = numericCast(arc4random_uniform(numericCast(visibleProfiles.count)))
+        return "\(visibleProfiles[nameIndex].firstName) \(visibleProfiles[nameIndex].lastName)"
     }
     
     var questionLabelText: String {
@@ -46,20 +54,25 @@ class NameGame {
     init(networkManager: NetworkManager = NetworkManager.shared, delegate: NameGameDelegate? = nil) {
         self.networkManager = networkManager
         self.delegate = delegate
-        loadGameData { [weak self] in self?.updateView() }
+        loadGameData { print("done loading") }
     }
 
     // Load JSON data from API
     private func loadGameData(completion: @escaping () -> Void) {
         networkManager.items(at: Endpoint.profile.url) { [weak self] (result: Result<[Profile]>) in
+            guard let me = self else { return }
             switch result {
-            case .success(let data):
-                self?.allProfiles = data
+            case .success(let profiles):
+                me.allProfiles = me.filterProfilesWithNoImages(profiles)
             case .failure(let error):
                 print(error)
             }
             completion()
         }
+    }
+    
+    private func filterProfilesWithNoImages(_ profiles: [Profile]) -> [Profile] {
+        return profiles.filter({ $0.headshot.url != nil })
     }
     
     private func updateView() {
@@ -80,6 +93,7 @@ extension NameGame {
     
     public func imageData(for profile: Profile, completionHandler: @escaping (Data) -> Void) {
         guard let url = profile.headshot.urlFull else { return }
+        print(url)
         NetworkManager.shared.retrieve(from: url) { (result: Result<Data>) in
             switch result {
             case .success(let image):
@@ -100,6 +114,13 @@ extension NameGame {
             shuffled.swapAt(firstUnshuffled, newIndex)
         }
         allProfiles = shuffled
+    }
+    
+    public func evaluateAnswer(for id: String) {
+        if visibleProfiles[nameIndex].id == id {
+            correctAnswers += 1
+        }
+        totalAnswers += 1
     }
     
 }
