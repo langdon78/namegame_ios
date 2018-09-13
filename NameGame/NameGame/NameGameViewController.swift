@@ -8,6 +8,12 @@
 
 import UIKit
 
+struct ButtonProfile {
+    var id: String
+    var name: String
+    var image: UIImage
+}
+
 final class NameGameViewController: UIViewController {
 
     @IBOutlet weak var outerStackView: UIStackView!
@@ -20,9 +26,9 @@ final class NameGameViewController: UIViewController {
     @IBOutlet weak var gameModeLabel: UILabel!
     
     lazy var nameGame: NameGame = { return NameGame() }()
-    var images: [(image: UIImage, id: String)] = [] {
+    var buttonProfiles: [ButtonProfile] = [] {
         didSet {
-            let percent = calculateLoadProgress(for: images.count)
+            let percent = calculateLoadProgress(for: buttonProfiles.count)
             setProgressIndicator(with: percent)
             displayImagesIfNeeded()
         }
@@ -44,7 +50,8 @@ final class NameGameViewController: UIViewController {
     }
 
     @IBAction func faceTapped(_ button: FaceButton) {
-        let answer = nameGame.evaluateAnswer(for: button.id)
+        guard let id = button.buttonProfile?.id else { return }
+        let answer = nameGame.evaluateAnswer(for: id)
         showAnswerFeedback(correct: answer)
         DispatchQueue.global(qos: .background).async { [weak self] in
             self?.nameGame.shuffle()
@@ -100,13 +107,25 @@ final class NameGameViewController: UIViewController {
     }
     
     private func displayImagesIfNeeded() {
-        if images.count == nameGame.numberPeople {
+        if buttonProfiles.count == nameGame.numberPeople {
             DispatchQueue.main.async { [weak self] in
                 self?.imageButtons.forEach { $0.alpha = 1.0 }
                 guard let me = self else { return }
                 me.fadeInImages()
                 me.imageButtons.forEach {
-                    $0.showFace(me.images[$0.tag].image, for: me.images[$0.tag].id)
+                    if self?.nameGame.gameMode == .reverseMode {
+                        let image = me.getImageWithColor(color: .white, size: CGSize(width: 340, height: 340))
+                        let buttonProfile = ButtonProfile(id: me.buttonProfiles[$0.tag].id, name: me.buttonProfiles[$0.tag].name, image: image)
+                        $0.configure(for: buttonProfile, reverse: true)
+                        print(me.nameGame.visibleProfiles[me.nameGame.answerIndex])
+                        if me.buttonProfiles[$0.tag].id == me.firstAvailableNonanswer() {
+                            var newButtonProfile = me.buttonProfiles[$0.tag]
+                            newButtonProfile.image = me.getAnswerImage()!
+                            $0.configure(for: newButtonProfile, reverse: false)
+                        }
+                    } else {
+                        $0.configure(for: me.buttonProfiles[$0.tag], reverse: false)
+                    }
                 }
                 me.resetImageCache()
                 me.hideProgressIndicator()
@@ -114,19 +133,40 @@ final class NameGameViewController: UIViewController {
         }
     }
     
+    func getAnswerImage() -> UIImage? {
+        let reverseId = nameGame.reverseProfile.id
+        return buttonProfiles.first(where: { $0.id == reverseId })?.image
+    }
+    
+    func firstAvailableNonanswer() -> String? {
+        let reverseId = nameGame.reverseProfile.id
+        return buttonProfiles.first(where: { $0.id != reverseId })?.id
+    }
+    
+    func getImageWithColor(color: UIColor, size: CGSize) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
     private func showAnswerFeedback(correct: Bool) {
         view.backgroundColor = correct ? .green : .red
     }
     
     private func resetImageCache() {
-        self.images.removeAll()
+        self.buttonProfiles.removeAll()
     }
     
     private func gatherImagesForDisplay() {
         imageButtons.forEach { button in
-            nameGame.imageData(for: button.tag) { [weak self] (data, id) in
+            nameGame.profileData(for: button.tag) { [weak self] (data, id, name) in
                 guard let image = UIImage(data: data) else { return }
-                self?.images.append((image, id))
+                let buttonProfile = ButtonProfile(id: id, name: name, image: image)
+                self?.buttonProfiles.append(buttonProfile)
             }
         }
     }
@@ -165,7 +205,7 @@ extension NameGameViewController: NameGameDelegate {
     func hideFace(for id: String) {
         DispatchQueue.main.async {
             UIView.animate(withDuration: 2.0) { [weak self] in
-                let button = self?.imageButtons.first(where: { $0.id == id })
+                let button = self?.imageButtons.first(where: { $0.buttonProfile?.id == id })
                 button?.alpha = 0.0
             }
         }

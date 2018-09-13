@@ -11,7 +11,7 @@ import UIKit
 
 open class FaceButton: UIButton {
 
-    var id: String = ""
+    var buttonProfile: ButtonProfile?
     var tintView: UIView = UIView(frame: CGRect.zero)
 
     override init(frame: CGRect) {
@@ -26,7 +26,6 @@ open class FaceButton: UIButton {
 
     func setup() {
         imageView?.contentMode = .scaleAspectFill
-        setTitleColor(.white, for: .normal)
         titleLabel?.alpha = 0.0
 
         tintView.alpha = 0.0
@@ -39,8 +38,16 @@ open class FaceButton: UIButton {
         tintView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
-    func showFace(_ image: UIImage, for id: String) {
-        setImage(image, for: .normal)
-        self.id = id
+    func configure(for buttonProfile: ButtonProfile, reverse: Bool) {
+        self.buttonProfile = buttonProfile
+        if reverse {
+            setBackgroundImage(buttonProfile.image, for: .normal)
+            setImage(nil, for: .normal)
+            setTitle(buttonProfile.name, for: .normal)
+            titleLabel?.alpha = 1.0
+            titleLabel?.textAlignment = .center
+        } else {
+            setImage(buttonProfile.image, for: .normal)
+        }
     }
 }

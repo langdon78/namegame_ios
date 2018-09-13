@@ -164,7 +164,9 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="FGv-0C-ewu" secondAttribute="height" multiplier="1:1" id="aBx-Yy-25R"/>
                                                 </constraints>
-                                                <state key="normal" title="Person 1" backgroundImage="button:FGv-0C-ewu:backgroundImage"/>
+                                                <state key="normal" title="Person 1" backgroundImage="button:FGv-0C-ewu:backgroundImage">
+                                                    <color key="titleColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T0X-ga-X94"/>
                                                 </connections>
@@ -175,7 +177,9 @@
                                                     <constraint firstAttribute="width" secondItem="qlO-si-bP2" secondAttribute="height" multiplier="1:1" id="aiT-Qv-AU6"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="Person 2" backgroundImage="button:FGv-0C-ewu:backgroundImage"/>
+                                                <state key="normal" title="Person 2" backgroundImage="button:FGv-0C-ewu:backgroundImage">
+                                                    <color key="titleColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aCs-fq-4gM"/>
                                                 </connections>
@@ -186,7 +190,9 @@
                                                     <constraint firstAttribute="width" secondItem="m9V-c5-o1r" secondAttribute="height" multiplier="1:1" id="ZgB-UY-UAw"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="Person 3" backgroundImage="button:FGv-0C-ewu:backgroundImage"/>
+                                                <state key="normal" title="Person 3" backgroundImage="button:FGv-0C-ewu:backgroundImage">
+                                                    <color key="titleColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rxn-jl-MoD"/>
                                                 </connections>
@@ -209,7 +215,9 @@
                                                     <constraint firstAttribute="width" secondItem="wKD-LA-aOV" secondAttribute="height" multiplier="1:1" id="jTy-xr-yVR"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="Person 4" backgroundImage="button:FGv-0C-ewu:backgroundImage"/>
+                                                <state key="normal" title="Person 4" backgroundImage="button:FGv-0C-ewu:backgroundImage">
+                                                    <color key="titleColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qJ2-f6-JBo"/>
                                                 </connections>
@@ -220,7 +228,9 @@
                                                     <constraint firstAttribute="width" secondItem="sT1-JL-4jJ" secondAttribute="height" multiplier="1:1" id="a4I-eK-8ky"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="Person 5" backgroundImage="button:FGv-0C-ewu:backgroundImage"/>
+                                                <state key="normal" title="Person 5" backgroundImage="button:FGv-0C-ewu:backgroundImage">
+                                                    <color key="titleColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vcn-hA-MTq"/>
                                                 </connections>
@@ -231,7 +241,9 @@
                                                     <constraint firstAttribute="width" secondItem="ljo-Aa-9vE" secondAttribute="height" multiplier="1:1" id="Ndx-b5-Keu"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="Person 6" backgroundImage="button:FGv-0C-ewu:backgroundImage"/>
+                                                <state key="normal" title="Person 6" backgroundImage="button:FGv-0C-ewu:backgroundImage">
+                                                    <color key="titleColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tzX-ZE-DFh"/>
                                                 </connections>

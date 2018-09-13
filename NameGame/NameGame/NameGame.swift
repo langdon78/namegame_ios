@@ -47,13 +47,17 @@ class NameGame {
         return Array(allProfiles[0..<numberPeople])
     }
     
-    var name: String {
+    var reverseProfile: Profile {
+        return visibleProfiles[answerIndex]
+    }
+    
+    var answerFullName: String {
         answerIndex = numericCast(arc4random_uniform(numericCast(visibleProfiles.count)))
-        return "\(visibleProfiles[answerIndex].firstName) \(visibleProfiles[answerIndex].lastName)"
+        return gameMode == .reverseMode ? "this" : visibleProfiles[answerIndex].fullName
     }
     
     var questionLabelText: String {
-        return questionPrefixText + name + "?"
+        return questionPrefixText + answerFullName + "?"
     }
     
     init(networkManager: NetworkManager = NetworkManager.shared,
@@ -137,14 +141,14 @@ class NameGame {
 // MARK: - Public API
 extension NameGame {
     
-    public func imageData(for id: Int, completionHandler: @escaping (Data, String) -> Void) {
+    public func profileData(for id: Int, completionHandler: @escaping (Data, String, String) -> Void) {
         guard let profile = profile(for: id),
             let url = profile.headshot.urlFull else { return }
 
         NetworkManager.shared.retrieve(from: url) { (result: Result<Data>) in
             switch result {
             case .success(let image):
-                completionHandler(image, profile.id)
+                completionHandler(image, profile.id, profile.fullName)
             case .failure(let error):
                 print(error)
             }

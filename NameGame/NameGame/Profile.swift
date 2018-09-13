@@ -18,3 +18,9 @@ struct Profile: Codable, Equatable {
     var headshot: Headshot
     var socialLinks: [SocialLink]
 }
+
+extension Profile {
+    var fullName: String {
+        return "\(firstName) \(lastName)"
+    }
+}
