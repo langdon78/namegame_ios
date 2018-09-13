@@ -80,24 +80,25 @@ class NameGame {
         delegate?.setQuestionLabelText(with: questionLabelText)
     }
     
+    private func profile(for id: Int) -> Profile? {
+        guard visibleProfiles.count >= id else { return nil }
+        return visibleProfiles[id]
+    }
+    
 }
 
 
 // MARK: - Public API
 extension NameGame {
     
-    public func profile(for id: Int) -> Profile? {
-        guard visibleProfiles.count >= id else { return nil }
-        return visibleProfiles[id]
-    }
-    
-    public func imageData(for profile: Profile, completionHandler: @escaping (Data) -> Void) {
-        guard let url = profile.headshot.urlFull else { return }
-        print(url)
+    public func imageData(for id: Int, completionHandler: @escaping (Data, String) -> Void) {
+        guard let profile = profile(for: id),
+            let url = profile.headshot.urlFull else { return }
+
         NetworkManager.shared.retrieve(from: url) { (result: Result<Data>) in
             switch result {
             case .success(let image):
-                completionHandler(image)
+                completionHandler(image, profile.id)
             case .failure(let error):
                 print(error)
             }
@@ -116,11 +117,14 @@ extension NameGame {
         allProfiles = shuffled
     }
     
-    public func evaluateAnswer(for id: String) {
+    public func evaluateAnswer(for id: String) -> Bool {
         if visibleProfiles[nameIndex].id == id {
             correctAnswers += 1
+            totalAnswers += 1
+            return true
         }
         totalAnswers += 1
+        return false
     }
     
 }

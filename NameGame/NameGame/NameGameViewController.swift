@@ -21,7 +21,7 @@ final class NameGameViewController: UIViewController {
     lazy var nameGame: NameGame = { return NameGame() }()
     var images: [(image: UIImage, id: String)] = [] {
         didSet {
-            let percent = calculateProgress(for: images.count)
+            let percent = calculateLoadProgress(for: images.count)
             setProgressIndicator(with: percent)
             displayImagesIfNeeded()
         }
@@ -29,16 +29,20 @@ final class NameGameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         nameGame.delegate = self
-        progressIndicatorView.isHidden = true
+        hideProgressIndicator()
         
         let orientation: UIDeviceOrientation = self.view.frame.size.height > self.view.frame.size.width ? .portrait : .landscapeLeft
         configureSubviews(orientation)
     }
 
     @IBAction func faceTapped(_ button: FaceButton) {
-        nameGame.evaluateAnswer(for: button.id)
-        nameGame.shuffle()
+        let answer = nameGame.evaluateAnswer(for: button.id)
+        showAnswerFeedback(correct: answer)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.nameGame.shuffle()
+        }
     }
 
     func configureSubviews(_ orientation: UIDeviceOrientation) {
@@ -60,13 +64,18 @@ final class NameGameViewController: UIViewController {
         configureSubviews(orientation)
     }
     
-    fileprivate func setTransparency(_ visible: Bool, completion: (() -> Void)?) {
+    fileprivate func fadeOutImages(_ visible: Bool = true, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.8) { [weak self] in
                 self?.outerStackView.alpha = visible ? 0.0 : 1.0
+                if visible { self?.view.backgroundColor = .white }
                 completion?()
             }
         }
+    }
+    
+    private func fadeInImages(completion: (() -> Void)? = nil) {
+        fadeOutImages(false, completion: completion)
     }
     
     private func setProgressIndicator(with percent: Float) {
@@ -75,7 +84,7 @@ final class NameGameViewController: UIViewController {
         }
     }
     
-    private func calculateProgress(for value: Int) -> Float {
+    private func calculateLoadProgress(for value: Int) -> Float {
         let total = Float(nameGame.numberPeople)
         return Float(value) / total
     }
@@ -84,17 +93,38 @@ final class NameGameViewController: UIViewController {
         if images.count == nameGame.numberPeople {
             DispatchQueue.main.async { [weak self] in
                 guard let me = self else { return }
-                me.setTransparency(false, completion: nil)
+                me.fadeInImages()
                 me.imageButtons.forEach {
                     $0.showFace(me.images[$0.tag].image, for: me.images[$0.tag].id)
                 }
-                me.resetImageLoader()
+                me.resetImageCache()
+                me.hideProgressIndicator()
             }
         }
     }
     
-    private func resetImageLoader() {
+    private func showAnswerFeedback(correct: Bool) {
+        view.backgroundColor = correct ? .green : .red
+    }
+    
+    private func resetImageCache() {
         self.images.removeAll()
+    }
+    
+    private func gatherImagesForDisplay() {
+        imageButtons.forEach { button in
+            nameGame.imageData(for: button.tag) { [weak self] (data, id) in
+                guard let image = UIImage(data: data) else { return }
+                self?.images.append((image, id))
+            }
+        }
+    }
+    
+    private func showProgressIndicator() {
+        progressIndicatorView.isHidden = false
+    }
+    
+    private func hideProgressIndicator() {
         self.progressIndicatorView.isHidden = true
         self.progressIndicatorView.setProgress(0.0, animated: false)
     }
@@ -103,19 +133,15 @@ final class NameGameViewController: UIViewController {
 extension NameGameViewController: NameGameDelegate {
     
     func updateScoreLabel(with score: String) {
-        scoreLabel.text = score
+        DispatchQueue.main.async { [weak self] in
+            self?.scoreLabel.text = score
+        }
     }
 
     func refreshImages() {
-        setTransparency(true) {
-            self.progressIndicatorView.isHidden = false
-            self.imageButtons.forEach { button in
-                guard let profile = self.nameGame.profile(for: button.tag) else { return }
-                self.nameGame.imageData(for: profile) { [weak self] data in
-                    guard let image = UIImage(data: data) else { return }
-                    self?.images.append((image,profile.id))
-                }
-            }
+        fadeOutImages() { [weak self] in
+            self?.showProgressIndicator()
+            self?.gatherImagesForDisplay()
         }
     }
     

@@ -127,12 +127,6 @@
                                     <constraint firstItem="wKD-LA-aOV" firstAttribute="height" secondItem="FGv-0C-ewu" secondAttribute="height" id="pRk-bi-QQe"/>
                                 </constraints>
                             </stackView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pFD-7T-heD">
-                                <rect key="frame" x="16" y="645" width="343" height="2"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="2" id="PcF-jV-HT1"/>
-                                </constraints>
-                            </progressView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MpV-wV-3VM">
                                 <rect key="frame" x="16" y="30" width="53.5" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -145,6 +139,12 @@
                                 <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pFD-7T-heD">
+                                <rect key="frame" x="16" y="119" width="343" height="5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="5" id="PcF-jV-HT1"/>
+                                </constraints>
+                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -157,8 +157,8 @@
                             <constraint firstItem="pFD-7T-heD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="N0I-fV-pVQ"/>
                             <constraint firstItem="NbA-Pq-2Ut" firstAttribute="leading" secondItem="MpV-wV-3VM" secondAttribute="trailing" constant="7.5" id="Pu6-qD-GUt"/>
                             <constraint firstItem="YNy-dp-Uoo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="QZW-4d-eh7"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pFD-7T-heD" secondAttribute="bottom" constant="20" id="WCr-yc-b9g"/>
                             <constraint firstItem="NbA-Pq-2Ut" firstAttribute="centerY" secondItem="MpV-wV-3VM" secondAttribute="centerY" id="dpQ-Dk-XLF"/>
+                            <constraint firstItem="pFD-7T-heD" firstAttribute="top" secondItem="YNy-dp-Uoo" secondAttribute="bottom" constant="10" id="eGd-JB-e2x"/>
                             <constraint firstItem="MpV-wV-3VM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="gfV-jh-xuA"/>
                             <constraint firstItem="vIP-zJ-c7A" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="iw7-sx-s4D"/>
                             <constraint firstItem="YNy-dp-Uoo" firstAttribute="top" secondItem="MpV-wV-3VM" secondAttribute="bottom" constant="20" id="toa-QG-kYb"/>
