@@ -20,6 +20,7 @@ class NameGame {
     let numberPeople = 6
     
     // Properties
+    var gameMode: GameMode
     var networkManager: NetworkManager
     weak var delegate: NameGameDelegate?
     var correctAnswers: Int = 0
@@ -51,19 +52,21 @@ class NameGame {
         return questionPrefixText + name + "?"
     }
     
-    init(networkManager: NetworkManager = NetworkManager.shared, delegate: NameGameDelegate? = nil) {
+    init(networkManager: NetworkManager = NetworkManager.shared,
+         delegate: NameGameDelegate? = nil,
+         gameMode: GameMode = .normal) {
         self.networkManager = networkManager
         self.delegate = delegate
+        self.gameMode = gameMode
         loadGameData { print("done loading") }
     }
 
     // Load JSON data from API
     private func loadGameData(completion: @escaping () -> Void) {
         networkManager.items(at: Endpoint.profile.url) { [weak self] (result: Result<[Profile]>) in
-            guard let me = self else { return }
             switch result {
             case .success(let profiles):
-                me.allProfiles = me.filterProfilesWithNoImages(profiles)
+                self?.filterProfiles(profiles)
             case .failure(let error):
                 print(error)
             }
@@ -83,6 +86,15 @@ class NameGame {
     private func profile(for id: Int) -> Profile? {
         guard visibleProfiles.count >= id else { return nil }
         return visibleProfiles[id]
+    }
+    
+    private func filterProfiles(_ profiles: [Profile]) {
+        allProfiles = filterProfilesWithNoImages(profiles)
+        switch gameMode {
+        case .mattMode: allProfiles = allProfiles.filter( {$0.firstName.prefix(3) == "Mat"} )
+        case .teamMode: allProfiles = allProfiles.filter({ $0.jobTitle != nil })
+        default: break
+        }
     }
     
 }
