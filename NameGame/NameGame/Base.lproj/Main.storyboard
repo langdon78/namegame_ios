@@ -140,9 +140,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pFD-7T-heD">
-                                <rect key="frame" x="16" y="119" width="343" height="5"/>
+                                <rect key="frame" x="16" y="119" width="343" height="3"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="5" id="PcF-jV-HT1"/>
+                                    <constraint firstAttribute="height" constant="3" id="PcF-jV-HT1"/>
                                 </constraints>
                             </progressView>
                         </subviews>
