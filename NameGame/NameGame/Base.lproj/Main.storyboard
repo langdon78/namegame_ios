@@ -24,16 +24,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Who is ...?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="YNy-dp-Uoo">
-                                <rect key="frame" x="16" y="35" width="343" height="38.5"/>
+                                <rect key="frame" x="16" y="70.5" width="343" height="38.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="32"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="vIP-zJ-c7A" userLabel="Outer Stack">
-                                <rect key="frame" x="16" y="84" width="343" height="573"/>
+                                <rect key="frame" x="16" y="117" width="343" height="540"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="EA9-A5-9wD" userLabel="Inner Stack View 1">
-                                        <rect key="frame" x="0.0" y="25.5" width="164" height="522"/>
+                                        <rect key="frame" x="0.0" y="9" width="164" height="522"/>
                                         <subviews>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FGv-0C-ewu" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="164" height="164"/>
@@ -45,7 +45,7 @@
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="T0X-ga-X94"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qlO-si-bP2" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qlO-si-bP2" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="179" width="164" height="164"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="qlO-si-bP2" secondAttribute="height" multiplier="1:1" id="aiT-Qv-AU6"/>
@@ -56,7 +56,7 @@
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="aCs-fq-4gM"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9V-c5-o1r" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9V-c5-o1r" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="358" width="164" height="164"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="m9V-c5-o1r" secondAttribute="height" multiplier="1:1" id="ZgB-UY-UAw"/>
@@ -77,9 +77,9 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="9jZ-07-xma" userLabel="Inner Stack View 2">
-                                        <rect key="frame" x="179" y="25.5" width="164" height="522"/>
+                                        <rect key="frame" x="179" y="9" width="164" height="522"/>
                                         <subviews>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wKD-LA-aOV" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" tag="3" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wKD-LA-aOV" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="164" height="164"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="wKD-LA-aOV" secondAttribute="height" multiplier="1:1" id="jTy-xr-yVR"/>
@@ -90,7 +90,7 @@
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qJ2-f6-JBo"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sT1-JL-4jJ" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" tag="4" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sT1-JL-4jJ" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="179" width="164" height="164"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="sT1-JL-4jJ" secondAttribute="height" multiplier="1:1" id="a4I-eK-8ky"/>
@@ -101,7 +101,7 @@
                                                     <action selector="faceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vcn-hA-MTq"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ljo-Aa-9vE" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
+                                            <button opaque="NO" clipsSubviews="YES" tag="5" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ljo-Aa-9vE" customClass="FaceButton" customModule="NameGame" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="358" width="164" height="164"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="ljo-Aa-9vE" secondAttribute="height" multiplier="1:1" id="Ndx-b5-Keu"/>
@@ -127,17 +127,41 @@
                                     <constraint firstItem="wKD-LA-aOV" firstAttribute="height" secondItem="FGv-0C-ewu" secondAttribute="height" id="pRk-bi-QQe"/>
                                 </constraints>
                             </stackView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pFD-7T-heD">
+                                <rect key="frame" x="16" y="645" width="343" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="PcF-jV-HT1"/>
+                                </constraints>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MpV-wV-3VM">
+                                <rect key="frame" x="16" y="30" width="53.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 / 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NbA-Pq-2Ut">
+                                <rect key="frame" x="77" y="30" width="35" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="vIP-zJ-c7A" secondAttribute="trailing" id="190-Xv-cNW"/>
-                            <constraint firstItem="vIP-zJ-c7A" firstAttribute="top" secondItem="YNy-dp-Uoo" secondAttribute="bottom" constant="10.5" id="1FP-Uz-4Lq"/>
+                            <constraint firstItem="vIP-zJ-c7A" firstAttribute="top" secondItem="YNy-dp-Uoo" secondAttribute="bottom" constant="8" id="1FP-Uz-4Lq"/>
+                            <constraint firstItem="MpV-wV-3VM" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="2Hl-9B-UmT"/>
+                            <constraint firstAttribute="trailing" secondItem="pFD-7T-heD" secondAttribute="trailing" constant="16" id="3Gc-T6-FgZ"/>
+                            <constraint firstAttribute="trailing" secondItem="NbA-Pq-2Ut" secondAttribute="trailing" constant="263" id="8OV-pP-cAU"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="vIP-zJ-c7A" secondAttribute="bottom" constant="10" id="Adg-JY-uhN"/>
+                            <constraint firstItem="pFD-7T-heD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="N0I-fV-pVQ"/>
+                            <constraint firstItem="NbA-Pq-2Ut" firstAttribute="leading" secondItem="MpV-wV-3VM" secondAttribute="trailing" constant="7.5" id="Pu6-qD-GUt"/>
                             <constraint firstItem="YNy-dp-Uoo" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="QZW-4d-eh7"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pFD-7T-heD" secondAttribute="bottom" constant="20" id="WCr-yc-b9g"/>
+                            <constraint firstItem="NbA-Pq-2Ut" firstAttribute="centerY" secondItem="MpV-wV-3VM" secondAttribute="centerY" id="dpQ-Dk-XLF"/>
+                            <constraint firstItem="MpV-wV-3VM" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="gfV-jh-xuA"/>
                             <constraint firstItem="vIP-zJ-c7A" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="iw7-sx-s4D"/>
-                            <constraint firstItem="YNy-dp-Uoo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="15" id="kDm-vo-lKN">
-                                <variation key="heightClass=regular" constant="15"/>
-                            </constraint>
+                            <constraint firstItem="YNy-dp-Uoo" firstAttribute="top" secondItem="MpV-wV-3VM" secondAttribute="bottom" constant="20" id="toa-QG-kYb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="YNy-dp-Uoo" secondAttribute="trailing" id="vR4-U7-Z3L"/>
                         </constraints>
                     </view>
@@ -145,7 +169,9 @@
                         <outlet property="innerStackView1" destination="EA9-A5-9wD" id="yjt-2t-CcL"/>
                         <outlet property="innerStackView2" destination="9jZ-07-xma" id="qPn-q5-7bh"/>
                         <outlet property="outerStackView" destination="vIP-zJ-c7A" id="9jW-Zm-qp5"/>
+                        <outlet property="progressIndicatorView" destination="pFD-7T-heD" id="0d4-6J-am4"/>
                         <outlet property="questionLabel" destination="YNy-dp-Uoo" id="WOZ-Nd-EOU"/>
+                        <outlet property="scoreLabel" destination="NbA-Pq-2Ut" id="aMX-ss-0zw"/>
                         <outletCollection property="imageButtons" destination="ljo-Aa-9vE" collectionClass="NSMutableArray" id="anO-Df-52G"/>
                         <outletCollection property="imageButtons" destination="wKD-LA-aOV" collectionClass="NSMutableArray" id="T3m-xx-NPh"/>
                         <outletCollection property="imageButtons" destination="m9V-c5-o1r" collectionClass="NSMutableArray" id="3A8-Zw-oMO"/>
@@ -156,7 +182,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="303" y="470"/>
+            <point key="canvasLocation" x="301.60000000000002" y="469.1154422788606"/>
         </scene>
     </scenes>
     <resources>
