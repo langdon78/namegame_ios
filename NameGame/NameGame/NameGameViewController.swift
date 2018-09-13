@@ -17,6 +17,7 @@ final class NameGameViewController: UIViewController {
     @IBOutlet var imageButtons: [FaceButton]!
     @IBOutlet weak var progressIndicatorView: UIProgressView!
     @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var gameModeLabel: UILabel!
     
     lazy var nameGame: NameGame = { return NameGame() }()
     var images: [(image: UIImage, id: String)] = [] {
@@ -32,9 +33,14 @@ final class NameGameViewController: UIViewController {
         
         nameGame.delegate = self
         hideProgressIndicator()
+        gameModeLabel.text = nameGame.gameMode.rawValue
         
         let orientation: UIDeviceOrientation = self.view.frame.size.height > self.view.frame.size.width ? .portrait : .landscapeLeft
         configureSubviews(orientation)
+    }
+    
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
     }
 
     @IBAction func faceTapped(_ button: FaceButton) {

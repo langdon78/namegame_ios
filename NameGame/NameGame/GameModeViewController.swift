@@ -23,6 +23,10 @@ class GameModeViewController: UIViewController {
         }
     }
     
+    @IBAction func segueToGame(_ sender: GameModeButton) {
+        performSegue(withIdentifier: "segueToGame", sender: sender)
+    }
+    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
