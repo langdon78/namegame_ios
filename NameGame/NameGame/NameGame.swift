@@ -13,51 +13,61 @@ protocol NameGameDelegate: class {
     func setQuestionLabelText(with text: String)
     func updateScoreLabel(with score: String)
     func hideFace(for id: String)
+    func showAlert(for error: Error)
 }
 
-class NameGame {
-    // Constants
-    let questionPrefixText = "Who is "
-    var numberPeople = 6
+final class NameGame {
+    // MARK: Constants
+    private let questionPrefixText = "Who is "
+    public let numberPeople = 6
     
-    // Properties
-    var gameMode: GameMode
-    var networkManager: NetworkManager
-    weak var delegate: NameGameDelegate?
-    var correctAnswers: Int = 0
-    var totalAnswers: Int = 0 {
+    // MARK: Public
+    public var gameMode: GameMode
+    public weak var delegate: NameGameDelegate?
+    
+    // MARK: Private
+    private var correctAnswers: Int = 0
+    private var totalAnswers: Int = 0 {
         didSet {
             delegate?.updateScoreLabel(with: "\(correctAnswers) / \(totalAnswers)")
         }
     }
-    var answerIndex: Int = 0
-    var timer: Timer?
-    
-    // Derived
-    var allProfiles: [Profile] = [] {
+    private var networkManager: NetworkManager
+    private var answerIndex: Int = 0
+    private var allProfiles: [Profile] = [] {
         didSet {
             updateView()
         }
     }
     
-    var hiddenProfiles: [Profile] = []
+    // Hint Mode
+    private var timer: Timer?
+    private var profilesToHide: [Profile] = []
     
-    var visibleProfiles: [Profile] {
+    // MARK: Derived
+    public var questionLabelText: String {
+        return questionPrefixText + answerFullName + "?"
+    }
+    
+    private var visibleProfiles: [Profile] {
         guard allProfiles.count > numberPeople else { return [] }
         return Array(allProfiles[0..<numberPeople])
     }
     
-    var reverseProfile: Profile {
+    private var reverseModeProfiles: [Profile] {
+        return prepareProfilesForReverseMode()
+    }
+    
+    private var displayableProfiles: [Profile] {
+        return gameMode == .reverseMode ? reverseModeProfiles : visibleProfiles
+    }
+    
+    private var answerProfile: Profile {
         return visibleProfiles[answerIndex]
     }
     
-    var answerFullName: String {
-        answerIndex = numericCast(arc4random_uniform(numericCast(visibleProfiles.count)))
+    private var answerFullName: String {
         return gameMode == .reverseMode ? "this" : visibleProfiles[answerIndex].fullName
-    }
-    
-    var questionLabelText: String {
-        return questionPrefixText + answerFullName + "?"
     }
     
     init(networkManager: NetworkManager = NetworkManager.shared,
@@ -66,23 +76,23 @@ class NameGame {
         self.networkManager = networkManager
         self.delegate = delegate
         self.gameMode = gameMode
-        loadGameData(completion: processGameMode)
+        loadGameData()
     }
 
-    // Load JSON data from API
-    private func loadGameData(completion: @escaping () -> Void) {
+    // MARK: Game Configuration
+    private func loadGameData() {
         networkManager.items(at: Endpoint.profile.url) { [weak self] (result: Result<[Profile]>) in
             switch result {
             case .success(let profiles):
                 self?.filterProfiles(profiles)
             case .failure(let error):
                 print(error)
+                self?.delegate?.showAlert(for: error)
             }
-            completion()
         }
     }
     
-    private func processGameMode() {
+    private func configureGameMode() {
         switch gameMode {
         case .hintMode:
             startTimer()
@@ -91,24 +101,14 @@ class NameGame {
         }
     }
     
-    @objc private func hideFaces() {
-        guard let profileToRemove = self.visibleProfiles.filter({ !self.hiddenProfiles.contains($0) }).first(where: { $0.id != self.visibleProfiles[self.answerIndex].id }) else {
-            stopTimer()
-            return
+    private func filterProfiles(_ profiles: [Profile]) {
+        let cleanProfiles = filterProfilesWithNoImages(profiles)
+        switch gameMode {
+        case .mattMode: startGame(with: cleanProfiles.filter( {$0.firstName.prefix(3) == "Mat"} ))
+        case .teamMode: startGame(with: cleanProfiles.filter({ $0.jobTitle != nil }))
+        default:
+            startGame(with: cleanProfiles)
         }
-        hiddenProfiles.append(profileToRemove)
-        self.delegate?.hideFace(for: profileToRemove.id)
-    }
-    
-    private func startTimer() {
-        if timer != nil { timer?.invalidate() }
-        let date = Date().addingTimeInterval(3)
-        timer = Timer(fireAt: date, interval: 3, target: self, selector: #selector(hideFaces), userInfo: nil, repeats: true)
-        RunLoop.main.add(timer!, forMode: RunLoopMode.commonModes)
-    }
-    
-    private func stopTimer() {
-        timer?.invalidate()
     }
     
     private func filterProfilesWithNoImages(_ profiles: [Profile]) -> [Profile] {
@@ -121,43 +121,16 @@ class NameGame {
     }
     
     private func profile(for id: Int) -> Profile? {
-        guard visibleProfiles.count >= id else { return nil }
-        return visibleProfiles[id]
+        guard displayableProfiles.count >= id else { return nil }
+        return displayableProfiles[id]
     }
     
-    private func filterProfiles(_ profiles: [Profile]) {
-        let cleanProfiles = filterProfilesWithNoImages(profiles)
-        switch gameMode {
-        case .mattMode: allProfiles = cleanProfiles.filter( {$0.firstName.prefix(3) == "Mat"} )
-        case .teamMode: allProfiles = cleanProfiles.filter({ $0.jobTitle != nil })
-        default:
-            allProfiles = cleanProfiles
-        }
+    private func getNewAnswer() {
+        answerIndex = numericCast(arc4random_uniform(numericCast(visibleProfiles.count)))
     }
     
-}
-
-
-// MARK: - Public API
-extension NameGame {
-    
-    public func profileData(for id: Int, completionHandler: @escaping (Data, String, String) -> Void) {
-        guard let profile = profile(for: id),
-            let url = profile.headshot.urlFull else { return }
-
-        NetworkManager.shared.retrieve(from: url) { (result: Result<Data>) in
-            switch result {
-            case .success(let image):
-                completionHandler(image, profile.id, profile.fullName)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-
-    public func shuffle() {
-        processGameMode()
-        var shuffled = allProfiles
+    private func shuffle(_ profiles: [Profile] = []) {
+        var shuffled = profiles.isEmpty ? allProfiles : profiles
         guard shuffled.count > 1 else { return }
         
         for (firstUnshuffled, unshuffledCount) in zip(shuffled.indices, stride(from: shuffled.count, to: 0, by: -1)) {
@@ -168,14 +141,108 @@ extension NameGame {
         allProfiles = shuffled
     }
     
+    private func startGame(with profiles: [Profile]) {
+        nextTurn(with: profiles)
+    }
+    
+}
+
+
+// MARK: - Public API
+extension NameGame {
+    
+    public func profileData(for id: Int, completionHandler: @escaping (Data, String, String) -> Void) {
+        guard let profile = profile(for: id) else { return }
+        guard let url = profile.headshot.urlFull else {
+            completionHandler(Data(), profile.id, profile.fullName)
+                return
+        }
+
+        NetworkManager.shared.retrieve(from: url) { [weak self] (result: Result<Data>) in
+            switch result {
+            case .success(let image):
+                completionHandler(image, profile.id, profile.fullName)
+            case .failure(let error):
+                print(error)
+                self?.delegate?.showAlert(for: error)
+            }
+        }
+    }
+
+    public func nextTurn(with profiles: [Profile] = []) {
+        configureGameMode()
+        shuffle(profiles)
+        getNewAnswer()
+    }
+    
     public func evaluateAnswer(for id: String) -> Bool {
-        if visibleProfiles[answerIndex].id == id {
+        if displayableProfiles[answerIndex].id == id {
             correctAnswers += 1
             totalAnswers += 1
             return true
         }
         totalAnswers += 1
         return false
+    }
+    
+    public func cleanUpGame() {
+        timer?.invalidate()
+        profilesToHide.removeAll()
+    }
+    
+}
+
+// MARK: - Hint Mode Methods
+extension NameGame {
+    
+    @objc private func hideFaces() {
+        guard let profileToRemove = self.displayableProfiles.filter({ !self.profilesToHide.contains($0) }).first(where: { $0.id != self.displayableProfiles[self.answerIndex].id }) else {
+            stopTimer()
+            return
+        }
+        profilesToHide.append(profileToRemove)
+        self.delegate?.hideFace(for: profileToRemove.id)
+    }
+    
+    private func startTimer() {
+        if timer != nil { stopTimer() }
+        let date = Date().addingTimeInterval(3)
+        timer = Timer(fireAt: date, interval: 3, target: self, selector: #selector(hideFaces), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer!, forMode: RunLoopMode.commonModes)
+    }
+    
+    private func stopTimer() {
+        profilesToHide.removeAll()
+        timer?.invalidate()
+    }
+    
+}
+
+// MARK: - Reverse Mode Methods
+extension NameGame {
+    
+    // Only display names for all but answer image
+    private func clearUrlsForReverseMode(_ profiles: [Profile]) -> [Profile] {
+        return profiles.map {
+            var profile = $0
+            profile.headshot.url = nil
+            return profile
+        }
+    }
+    
+    // Swap answer image with non-answer.
+    // Selectable answers will be shown with names,
+    // instead of image
+    private func prepareProfilesForReverseMode() -> [Profile] {
+        var visible = visibleProfiles
+        // Grab answer image for later
+        let answerImageUrl = visible[answerIndex].headshot.url
+        visible = clearUrlsForReverseMode(visible)
+        // Find nearest index for non-answer person
+        guard let nextAvailableIndex = visible.index(where: { $0.id != answerProfile.id }) else { return visible }
+        // Apply face image to non-answer person
+        visible[nextAvailableIndex].headshot.url = answerImageUrl
+        return visible
     }
     
 }
