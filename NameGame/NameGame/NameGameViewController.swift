@@ -63,9 +63,7 @@ final class NameGameViewController: UIViewController {
         guard let id = button.buttonProfile?.id else { return }
         let answer = nameGame.evaluateAnswer(for: id)
         showAnswerFeedback(correct: answer)
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.nameGame.nextTurn()
-        }
+        nameGame.nextTurn()
     }
     
     @IBAction func newGame(_ sender: UIButton) {
