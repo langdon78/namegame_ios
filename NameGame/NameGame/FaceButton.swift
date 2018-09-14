@@ -38,9 +38,9 @@ open class FaceButton: UIButton {
         tintView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
-    func configure(for buttonProfile: ButtonProfile, reverse: Bool) {
+    func configure(for buttonProfile: ButtonProfile, titleOnly: Bool) {
         self.buttonProfile = buttonProfile
-        if reverse {
+        if titleOnly {
             setBackgroundImage(buttonProfile.image, for: .normal)
             setImage(nil, for: .normal)
             setTitle(buttonProfile.name, for: .normal)
@@ -48,6 +48,7 @@ open class FaceButton: UIButton {
             titleLabel?.textAlignment = .center
         } else {
             setImage(buttonProfile.image, for: .normal)
+            titleLabel?.alpha = 0.0
         }
     }
 }
