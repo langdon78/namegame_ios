@@ -24,12 +24,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wt-december-newsletter_blog-featured-image_td-510x296" translatesAutoresizingMaskIntoConstraints="NO" id="GVH-ir-kvr">
-                                <rect key="frame" x="-39.5" y="41" width="466" height="200"/>
+                                <rect key="frame" x="0.0" y="41" width="375" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="200" id="vVO-FF-30b"/>
+                                </constraints>
                             </imageView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="def-lw-idN">
-                                <rect key="frame" x="0.0" y="293" width="375" height="190"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="def-lw-idN">
+                                <rect key="frame" x="0.0" y="281" width="375" height="190"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mNc-9V-cWB" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mNc-9V-cWB" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="38"/>
                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
                                         <state key="normal" title="Team Mode">
@@ -49,7 +52,7 @@
                                             <action selector="segueToGame:" destination="Yjd-4W-Y4Z" eventType="touchUpInside" id="aQ1-rw-vAb"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hYO-MG-4gE" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hYO-MG-4gE" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="76" width="375" height="38"/>
                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
                                         <state key="normal" title="Hint Mode">
@@ -59,7 +62,7 @@
                                             <action selector="segueToGame:" destination="Yjd-4W-Y4Z" eventType="touchUpInside" id="76L-up-YwO"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AUK-Tx-1Mi" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AUK-Tx-1Mi" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="114" width="375" height="38"/>
                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
                                         <state key="normal" title="Matt Mode">
@@ -70,7 +73,7 @@
                                             <segue destination="BYZ-38-t0r" kind="show" identifier="segueToGame" id="miE-Ai-x6S"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jsi-Yk-hvK" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jsi-Yk-hvK" customClass="GameModeButton" customModule="NameGame" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="152" width="375" height="38"/>
                                         <fontDescription key="fontDescription" name="GillSans" family="Gill Sans" pointSize="22"/>
                                         <state key="normal" title="Reverse Mode">
@@ -82,9 +85,12 @@
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="190" id="TzE-x1-Z3f"/>
+                                </constraints>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Game" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uMA-fW-iU3">
-                                <rect key="frame" x="0.0" y="228" width="375" height="45"/>
+                                <rect key="frame" x="0.0" y="222" width="375" height="45"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="vMV-kM-C69"/>
@@ -97,13 +103,15 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="def-lw-idN" firstAttribute="leading" secondItem="5Xa-RP-D5n" secondAttribute="leading" id="7Bz-aF-ohK"/>
-                            <constraint firstItem="GVH-ir-kvr" firstAttribute="centerX" secondItem="5Xa-RP-D5n" secondAttribute="centerX" constant="6" id="EhG-Of-9jD"/>
-                            <constraint firstItem="def-lw-idN" firstAttribute="top" secondItem="uMA-fW-iU3" secondAttribute="bottom" constant="20" id="I0V-bg-cva"/>
                             <constraint firstItem="GVH-ir-kvr" firstAttribute="top" secondItem="WB4-mx-WHb" secondAttribute="bottom" constant="21" id="IDO-4K-Jve"/>
                             <constraint firstItem="uMA-fW-iU3" firstAttribute="leading" secondItem="5Xa-RP-D5n" secondAttribute="leading" id="JcN-y8-d1B"/>
+                            <constraint firstItem="vfS-52-Gw7" firstAttribute="top" relation="greaterThanOrEqual" secondItem="def-lw-idN" secondAttribute="bottom" constant="20" id="Tm0-qc-j9P"/>
+                            <constraint firstItem="GVH-ir-kvr" firstAttribute="leading" secondItem="5Xa-RP-D5n" secondAttribute="leading" id="U2W-kf-xPs"/>
                             <constraint firstAttribute="trailing" secondItem="uMA-fW-iU3" secondAttribute="trailing" id="XgX-eO-g0C"/>
+                            <constraint firstItem="uMA-fW-iU3" firstAttribute="top" secondItem="GVH-ir-kvr" secondAttribute="bottom" constant="-19" id="eAo-Ev-IcI"/>
                             <constraint firstAttribute="trailing" secondItem="def-lw-idN" secondAttribute="trailing" id="kvY-Cy-mKG"/>
-                            <constraint firstItem="uMA-fW-iU3" firstAttribute="top" secondItem="GVH-ir-kvr" secondAttribute="bottom" constant="-13" id="zk4-Vo-Veq"/>
+                            <constraint firstItem="def-lw-idN" firstAttribute="top" secondItem="GVH-ir-kvr" secondAttribute="bottom" constant="40" id="qKV-L8-cPs"/>
+                            <constraint firstAttribute="trailing" secondItem="GVH-ir-kvr" secondAttribute="trailing" id="res-oD-sXa"/>
                         </constraints>
                     </view>
                     <connections>
@@ -116,7 +124,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nmd-ha-QPi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-514" y="469"/>
+            <point key="canvasLocation" x="-514.39999999999998" y="468.21589205397305"/>
         </scene>
         <!--NameGame-->
         <scene sceneID="tne-QT-ifu">
@@ -164,6 +172,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="FGv-0C-ewu" secondAttribute="height" multiplier="1:1" id="aBx-Yy-25R"/>
                                                 </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <state key="normal" title="Person 1" backgroundImage="button:FGv-0C-ewu:backgroundImage">
                                                     <color key="titleColor" red="0.25098039220000001" green="0.54117647059999996" blue="0.58431372550000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
