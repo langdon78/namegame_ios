@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5KO-vd-yF3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="5KO-vd-yF3">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,12 +21,30 @@
                     <view key="view" contentMode="scaleToFill" id="33H-7W-ioH">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="WTPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="LwD-Bu-4Hl">
+                                <rect key="frame" x="0.0" y="170" width="375" height="326"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="LwD-Bu-4Hl" secondAttribute="height" multiplier="375:326" id="4b8-rY-3cs"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6Hu-Cm-Caz" firstAttribute="top" secondItem="LwD-Bu-4Hl" secondAttribute="bottom" constant="171" id="0YS-HC-whY"/>
+                            <constraint firstItem="LwD-Bu-4Hl" firstAttribute="leading" secondItem="33H-7W-ioH" secondAttribute="leading" id="GUH-Ic-46G"/>
+                            <constraint firstItem="LwD-Bu-4Hl" firstAttribute="top" secondItem="EVu-iE-aUb" secondAttribute="bottom" constant="150" id="Q0Z-Em-1Dt"/>
+                            <constraint firstAttribute="trailing" secondItem="LwD-Bu-4Hl" secondAttribute="trailing" id="j6n-ph-URa"/>
+                            <constraint firstItem="LwD-Bu-4Hl" firstAttribute="centerX" secondItem="33H-7W-ioH" secondAttribute="centerX" id="pP7-gb-2hj"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CcH-Ef-VBN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="164" y="136"/>
+            <point key="canvasLocation" x="164" y="135.38230884557723"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="WTPlaceholder" width="377" height="377"/>
+    </resources>
 </document>
