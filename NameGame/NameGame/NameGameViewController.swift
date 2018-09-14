@@ -11,29 +11,33 @@ import UIKit
 struct ButtonProfile {
     var id: String
     var name: String
-    var image: UIImage
+    var image: UIImage?
 }
 
 final class NameGameViewController: UIViewController {
 
-    @IBOutlet weak var outerStackView: UIStackView!
-    @IBOutlet weak var innerStackView1: UIStackView!
-    @IBOutlet weak var innerStackView2: UIStackView!
-    @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet var imageButtons: [FaceButton]!
-    @IBOutlet weak var progressIndicatorView: UIProgressView!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var gameModeLabel: UILabel!
+    // MARK: Storyboard Inputs
+    @IBOutlet private weak var outerStackView: UIStackView!
+    @IBOutlet private weak var innerStackView1: UIStackView!
+    @IBOutlet private weak var innerStackView2: UIStackView!
+    @IBOutlet private weak var questionLabel: UILabel!
+    @IBOutlet private var imageButtons: [FaceButton]!
+    @IBOutlet private weak var progressIndicatorView: UIProgressView!
+    @IBOutlet private weak var scoreLabel: UILabel!
+    @IBOutlet private weak var gameModeLabel: UILabel!
     
+    // MARK: Properties
     lazy var nameGame: NameGame = { return NameGame() }()
-    var buttonProfiles: [ButtonProfile] = [] {
+    
+    private var buttonProfileCache: [ButtonProfile] = [] {
         didSet {
-            let percent = calculateLoadProgress(for: buttonProfiles.count)
+            let percent = calculateLoadProgress(for: buttonProfileCache.count)
             setProgressIndicator(with: percent)
             displayImagesIfNeeded()
         }
     }
 
+    // MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,16 +49,22 @@ final class NameGameViewController: UIViewController {
         configureSubviews(orientation)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        nameGame.cleanUpGame()
+    }
+    
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
     }
 
+    // MARK: Storyboard Actions
     @IBAction func faceTapped(_ button: FaceButton) {
         guard let id = button.buttonProfile?.id else { return }
         let answer = nameGame.evaluateAnswer(for: id)
         showAnswerFeedback(correct: answer)
         DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.nameGame.shuffle()
+            self?.nameGame.nextTurn()
         }
     }
     
@@ -62,6 +72,7 @@ final class NameGameViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    // MARK: Orientation Methods
     func configureSubviews(_ orientation: UIDeviceOrientation) {
         if orientation.isLandscape {
             outerStackView.axis = .vertical
@@ -81,6 +92,7 @@ final class NameGameViewController: UIViewController {
         configureSubviews(orientation)
     }
     
+    // MARK: Implementation
     fileprivate func fadeOutImages(_ visible: Bool = true, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.8) { [weak self] in
@@ -107,50 +119,35 @@ final class NameGameViewController: UIViewController {
     }
     
     private func displayImagesIfNeeded() {
-        if buttonProfiles.count == nameGame.numberPeople {
+        if buttonProfileCache.count == nameGame.numberPeople {
             DispatchQueue.main.async { [weak self] in
                 self?.imageButtons.forEach { $0.alpha = 1.0 }
-                guard let me = self else { return }
-                me.fadeInImages()
-                me.imageButtons.forEach {
-                    if self?.nameGame.gameMode == .reverseMode {
-                        let image = me.getImageWithColor(color: .white, size: CGSize(width: 340, height: 340))
-                        let buttonProfile = ButtonProfile(id: me.buttonProfiles[$0.tag].id, name: me.buttonProfiles[$0.tag].name, image: image)
-                        $0.configure(for: buttonProfile, reverse: true)
-                        print(me.nameGame.visibleProfiles[me.nameGame.answerIndex])
-                        if me.buttonProfiles[$0.tag].id == me.firstAvailableNonanswer() {
-                            var newButtonProfile = me.buttonProfiles[$0.tag]
-                            newButtonProfile.image = me.getAnswerImage()!
-                            $0.configure(for: newButtonProfile, reverse: false)
-                        }
-                    } else {
-                        $0.configure(for: me.buttonProfiles[$0.tag], reverse: false)
-                    }
+                self?.fadeInImages()
+                self?.imageButtons.forEach { button in
+                    self?.configureFaceButton(button)
                 }
-                me.resetImageCache()
-                me.hideProgressIndicator()
+                self?.resetImageCache()
+                self?.hideProgressIndicator()
             }
         }
     }
     
-    func getAnswerImage() -> UIImage? {
-        let reverseId = nameGame.reverseProfile.id
-        return buttonProfiles.first(where: { $0.id == reverseId })?.image
-    }
-    
-    func firstAvailableNonanswer() -> String? {
-        let reverseId = nameGame.reverseProfile.id
-        return buttonProfiles.first(where: { $0.id != reverseId })?.id
-    }
-    
-    func getImageWithColor(color: UIColor, size: CGSize) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        color.setFill()
-        UIRectFill(rect)
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return image
+    private func configureFaceButton(_ button: FaceButton) {
+        var loadedProfiles = buttonProfileCache
+        loadedProfiles.sort(by: {first,_ in first.image != nil })
+        let currentProfile = loadedProfiles[button.tag]
+        if nameGame.gameMode == .reverseMode {
+            let image = emptyImage()
+            let buttonProfile = ButtonProfile(id: currentProfile.id, name: currentProfile.name, image: image)
+            if currentProfile.image != nil {
+                button.configure(for: currentProfile, titleOnly: false)
+                button.isUserInteractionEnabled = false
+            } else {
+                button.configure(for: buttonProfile, titleOnly: true)
+            }
+        } else {
+            button.configure(for: currentProfile, titleOnly: false)
+        }
     }
     
     private func showAnswerFeedback(correct: Bool) {
@@ -158,15 +155,15 @@ final class NameGameViewController: UIViewController {
     }
     
     private func resetImageCache() {
-        self.buttonProfiles.removeAll()
+        self.buttonProfileCache.removeAll()
     }
     
     private func gatherImagesForDisplay() {
         imageButtons.forEach { button in
             nameGame.profileData(for: button.tag) { [weak self] (data, id, name) in
-                guard let image = UIImage(data: data) else { return }
+                let image = UIImage(data: data)
                 let buttonProfile = ButtonProfile(id: id, name: name, image: image)
-                self?.buttonProfiles.append(buttonProfile)
+                self?.buttonProfileCache.append(buttonProfile)
             }
         }
     }
@@ -181,6 +178,7 @@ final class NameGameViewController: UIViewController {
     }
 }
 
+// MARK: - NameGameDelegate
 extension NameGameViewController: NameGameDelegate {
     
     func updateScoreLabel(with score: String) {
@@ -209,5 +207,25 @@ extension NameGameViewController: NameGameDelegate {
                 button?.alpha = 0.0
             }
         }
+    }
+    
+    func showAlert(for error: Error) {
+        let alert = UIAlertController(title: "Uh oh...", message: error.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+}
+
+// MARK: - Image Helper
+extension NameGameViewController {
+    func emptyImage(size: CGSize = CGSize(width: 340, height: 340)) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        UIColor.white.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image
     }
 }
