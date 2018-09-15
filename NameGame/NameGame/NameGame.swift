@@ -2,8 +2,8 @@
 //  NameGame.swift
 //  NameGame
 //
-//  Created by Erik LaManna on 11/7/16.
-//  Copyright © 2016 WillowTree Apps. All rights reserved.
+//  Created by James Langdon on 9/12/18.
+//  Copyright © 2018 WillowTree Apps. All rights reserved.
 //
 
 import Foundation
@@ -92,15 +92,6 @@ final class NameGame {
         }
     }
     
-    private func configureGameMode() {
-        switch gameMode {
-        case .hintMode:
-            startTimer()
-        default:
-            break
-        }
-    }
-    
     private func filterProfiles(_ profiles: [Profile]) {
         let cleanProfiles = filterProfilesWithNoImages(profiles)
         switch gameMode {
@@ -170,7 +161,6 @@ extension NameGame {
     }
 
     public func nextTurn(with profiles: [Profile] = []) {
-        configureGameMode()
         shuffle(profiles)
         getNewAnswer()
     }
@@ -188,6 +178,12 @@ extension NameGame {
     public func cleanUpGame() {
         timer?.invalidate()
         profilesToHide.removeAll()
+    }
+    
+    public func startTurnBackgroundTasks() {
+        if case .hintMode = gameMode {
+            startTimer()
+        }
     }
     
 }
