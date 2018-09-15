@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  NameGame
 //
-//  Created by Matt Kauper on 3/8/16.
-//  Copyright © 2016 WillowTree Apps. All rights reserved.
+//  Created by James Langdon on 9/12/18.
+//  Copyright © 2018 WillowTree Apps. All rights reserved.
 //
 
 import UIKit
@@ -35,6 +35,10 @@ final class NameGameViewController: UIViewController {
             setProgressIndicator(with: percent)
             displayImagesIfNeeded()
         }
+    }
+    
+    var readyForDisplay: Bool {
+        return buttonProfileCache.count == nameGame.numberPeople
     }
 
     // MARK: View Lifecycle
@@ -117,34 +121,39 @@ final class NameGameViewController: UIViewController {
     }
     
     private func displayImagesIfNeeded() {
-        if buttonProfileCache.count == nameGame.numberPeople {
-            DispatchQueue.main.async { [weak self] in
-                self?.imageButtons.forEach { $0.alpha = 1.0 }
-                self?.fadeInImages()
-                self?.imageButtons.forEach { button in
-                    self?.configureFaceButton(button)
-                }
-                self?.resetImageCache()
-                self?.hideProgressIndicator()
+        if readyForDisplay {
+            nameGame.startTurnBackgroundTasks()
+            displayImages()
+        }
+    }
+    
+    private func displayImages() {
+        DispatchQueue.main.async { [weak self] in
+            self?.imageButtons.forEach { $0.alpha = 1.0 }
+            self?.fadeInImages()
+            self?.imageButtons.forEach { button in
+                self?.configureFaceButton(button)
             }
+            self?.resetImageCache()
+            self?.hideProgressIndicator()
         }
     }
     
     private func configureFaceButton(_ button: FaceButton) {
         var loadedProfiles = buttonProfileCache
+        // Sort profile with image to upper left of screen
         loadedProfiles.sort(by: {first,_ in first.image != nil })
         let currentProfile = loadedProfiles[button.tag]
-        if nameGame.gameMode == .reverseMode {
-            let image = emptyImage()
-            let buttonProfile = ButtonProfile(id: currentProfile.id, name: currentProfile.name, image: image)
-            if currentProfile.image != nil {
-                button.configure(for: currentProfile, titleOnly: false)
-                button.isUserInteractionEnabled = false
-            } else {
-                button.configure(for: buttonProfile, titleOnly: true)
-            }
+        // Swap images for names in reverse mode
+        let titleOnly = currentProfile.image == nil
+        if titleOnly {
+            let noImageProfile = ButtonProfile(id: currentProfile.id, name: currentProfile.name, image: emptyImage())
+            button.configure(for: noImageProfile, titleOnly: titleOnly)
         } else {
-            button.configure(for: currentProfile, titleOnly: false)
+            let reverseMode = nameGame.gameMode == .reverseMode
+            // Disable interaction on single image in reverse mode
+            let interactive = !reverseMode
+            button.configure(for: currentProfile, titleOnly: titleOnly, interactive: interactive)
         }
     }
     
