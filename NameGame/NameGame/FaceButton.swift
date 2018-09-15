@@ -2,8 +2,8 @@
 //  FaceButton.swift
 //  NameGame
 //
-//  Created by Intern on 3/11/16.
-//  Copyright © 2016 WillowTree Apps. All rights reserved.
+//  Created by James Langdon on 9/23/18.
+//  Copyright © 2018 WillowTree Apps. All rights reserved.
 //
 
 import Foundation
@@ -38,7 +38,8 @@ open class FaceButton: UIButton {
         tintView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
 
-    func configure(for buttonProfile: ButtonProfile, titleOnly: Bool) {
+    func configure(for buttonProfile: ButtonProfile, titleOnly: Bool, interactive: Bool = true) {
+        isUserInteractionEnabled = interactive
         self.buttonProfile = buttonProfile
         if titleOnly {
             setBackgroundImage(buttonProfile.image, for: .normal)
